@@ -1,0 +1,123 @@
+<form class="ui form" (keydown.enter)="$event.preventDefault()">
+  <div class="ten wide column">
+    <div class="tow fields">
+      <div class="field">
+        <label>Index No: </label>
+        <input type="text" name="indexno" placeholder="Index No" readonly [(ngModel)]="currentUser['index']">
+      </div>
+      <div class="field">
+        <label>Batch: </label>
+        <input type="text" name="batch" placeholder="Batch" readonly [(ngModel)]="currentUser['batch']['name']">
+      </div>
+    </div>
+  </div>
+  <div class="ten wide field">
+    <label>Account Email Address: (this is for contact you. not showing in public)</label>
+    <input type="email" name="accountEmail" placeholder="This is only for contacting you in this website"
+           [(ngModel)]="currentUser['accountEmail']"
+    >
+  </div>
+  <div class="ten wide column field">
+    <label>Full Name: </label>
+    <input type="text" name="name" placeholder="Full Name" [(ngModel)]="currentUser['name']">
+  </div>
+  <div class="ten wide column field">
+    <label>Address: </label>
+    <textarea rows="3" name="address" [(ngModel)]="currentUser['address']"></textarea>
+  </div>
+
+
+  <div class="field">
+    <label>Contact No: </label>
+    <div class="list-fields">
+      <div class="ui icon input" *ngFor="let x of currentUser['contactNo']; let i = index">
+        <input type="text" readonly placeholder="Number" value="{{x}}">
+        <i class="circular red delete link icon" (click)="removeList(currentUser['contactNo'], i)"></i>
+      </div>
+      <div class="ui icon input">
+        <input type="text" placeholder="New Contact Number.." #cntNo>
+        <i class="circular blue add link icon"
+           (click)="addList(currentUser['contactNo'], cntNo.value); cntNo.value = ''"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Email Address: </label>
+    <div class="list-fields">
+      <div class="ui icon input" *ngFor="let x of currentUser['email']; let i = index">
+        <input type="email" readonly placeholder="Email" value="{{x}}">
+        <i class="circular red delete link icon" (click)="removeList(currentUser['email'], i)"></i>
+      </div>
+      <div class="ui icon input">
+        <input type="email" placeholder="New Email.." #emailId>
+        <i class="circular blue add link icon"
+           (click)="addList(currentUser['email'], emailId.value); emailId.value = ''"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="sixteen wide field">
+    <label>Schools: </label>
+    <div class="fields" *ngFor="let x of currentUser['school']; let i = index">
+      <div class="ten wide field">
+        <div class="ui input">
+          <input type="text" placeholder="School" readonly value="{{x.name}}">
+        </div>
+      </div>
+      <div class="two wide field">
+        <div class="ui input">
+          <input type="text" placeholder="From" readonly value="{{x.from}}">
+        </div>
+      </div>
+      <div class="two wide field">
+        <div class="ui input">
+          <input type="text" placeholder="To" readonly value="{{x.to}}">
+        </div>
+      </div>
+      <div class="two wide field">
+        <button class="ui circular icon button" (click)="removeList(currentUser['school'], i)">
+          <i class="red delete icon"></i>
+        </button>
+      </div>
+    </div>
+    <div class="fields">
+      <div class="ten wide field">
+        <div class="ui search">
+          <!--<div class="ui icon input">-->
+            <input class="prompt" type="text" placeholder="New School.."
+                   name="search-school" [(ngModel)]="searchSchool['searchText']">
+            <!--<i class="search icon"></i>-->
+          <!--</div>-->
+          <div class="results"></div>
+        </div>
+      </div>
+      <div class="two wide field">
+        <div class="ui input">
+          <input type="text" placeholder="From" name="from-school" [(ngModel)]="searchSchool['from']">
+        </div>
+      </div>
+      <div class="two wide field">
+        <div class="ui input">
+          <input type="text" placeholder="To" name="to-school" [(ngModel)]="searchSchool['to']">
+        </div>
+      </div>
+      <div class="two wide field">
+        <button class="ui circular icon button" (click)="addSchool()">
+          <i class="blue add icon"></i>
+        </button>
+      </div>
+    </div>
+    <!--<div class="ui icon input" >-->
+    <!--<input type="text" placeholder="School" value="{{x.name}}">-->
+    <!--<i class="circular red delete link icon" ></i>-->
+    <!--</div>-->
+    <!--<div class="ui icon input search">-->
+    <!--<input class="prompt" type="text" placeholder="Schools" name="school-search" [(ngModel)]="searchedText">-->
+    <!--<i class="circular blue add link icon" (click)="addSchool()"></i>-->
+    <!--<div class="results"></div>-->
+    <!--</div>-->
+  </div>
+
+  <button class="ui blue button" (click)="submit()">Submit</button>
+</form>

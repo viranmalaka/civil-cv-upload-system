@@ -1,0 +1,36 @@
+<div class="ui center aligned grid">
+  <div class="ui aligned ten wide column">
+
+    <div class="ui form">
+      <div class="five wide field">
+        <label style="text-align: left">Batch: </label>
+        <sui-select class="selection"
+                    [(ngModel)]="selectedOption"
+                    [options]="filteredOptions"
+                    labelField="name"
+                    name="batch"
+                    #select>
+          <sui-select-option *ngFor="let option of filteredOptions"
+                             [value]="option">
+          </sui-select-option>
+        </sui-select>
+      </div>
+    </div>
+    <div class="ui segment">
+
+      <p>Select the Batch first</p>
+      <p>Please upload CSV file having index (and name)</p>
+
+      <div class="ui button" tabindex="0">
+        <div class="hidden content"><label for="csv">Upload</label></div>
+        <div class="visible content"><i class="upload icon"></i></div>
+      </div>
+    </div>
+
+    <form>
+      <input type="file" style="display: none;"
+             (change)="upload()" [disabled]="!selectedOption" id="csv" accept="text/csv"/>
+    </form>
+
+  </div>
+</div>

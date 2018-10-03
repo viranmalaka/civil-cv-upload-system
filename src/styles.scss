@@ -1,1 +1,232 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css');
+@import "~ag-grid-community/dist/styles/ag-grid.css";
+@import "~ag-grid-community/dist/styles/ag-theme-balham.css";
+@import '~ngx-toastr/toastr.css';
+
 /* You can add global styles to this file, and also import other style files */
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+/* All Sizes */
+.ui.container {
+  display: block;
+  max-width: 100% !important;
+}
+
+/* Mobile */
+@media only screen and (max-width: 767px) {
+  .ui.container {
+    width: auto !important;
+    margin-left: 1em !important;
+    margin-right: 1em !important;
+  }
+  .ui.grid.container {
+    width: auto !important;
+  }
+  .ui.relaxed.grid.container {
+    width: auto !important;
+  }
+  .ui.very.relaxed.grid.container {
+    width: auto !important;
+  }
+}
+
+/* Tablet */
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .ui.container {
+    width: 723px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .ui.grid.container {
+    width: calc( 723px  +  2rem ) !important;
+  }
+  .ui.relaxed.grid.container {
+    width: calc( 723px  +  3rem ) !important;
+  }
+  .ui.very.relaxed.grid.container {
+    width: calc( 723px  +  5rem ) !important;
+  }
+}
+
+/* Small Monitor */
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  .ui.container {
+    width: 933px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .ui.grid.container {
+    width: calc( 933px  +  2rem ) !important;
+  }
+  .ui.relaxed.grid.container {
+    width: calc( 933px  +  3rem ) !important;
+  }
+  .ui.very.relaxed.grid.container {
+    width: calc( 933px  +  5rem ) !important;
+  }
+}
+
+/* Large Monitor */
+@media only screen and (min-width: 1200px) {
+  .ui.container {
+    width: 1127px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .ui.grid.container {
+    width: calc( 1127px  +  2rem ) !important;
+  }
+  .ui.relaxed.grid.container {
+    width: calc( 1127px  +  3rem ) !important;
+  }
+  .ui.very.relaxed.grid.container {
+    width: calc( 1127px  +  5rem ) !important;
+  }
+}
+
+
+/* Text Container */
+.ui.text.container {
+  font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  max-width: 700px !important;
+  line-height: 1.5;
+}
+.ui.text.container {
+  font-size: 1.14285714rem;
+}
+
+/* Fluid */
+.ui.fluid.container {
+  width: 100%;
+}
+
+
+.ui[class*="left aligned"].container {
+  text-align: left;
+}
+.ui[class*="center aligned"].container {
+  text-align: center;
+}
+.ui[class*="right aligned"].container {
+  text-align: right;
+}
+.ui.justified.container {
+  text-align: justify;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
+}
+
+
+.hidden.menu {
+  display: none;
+}
+
+.masthead.segment {
+  min-height: 600px;
+  padding: 1em 0em;
+}
+.masthead .logo.item img {
+  margin-right: 1em;
+}
+.masthead .ui.menu .ui.button {
+  margin-left: 0.5em;
+}
+.masthead h1.ui.header {
+  margin-top: 2em;
+  margin-bottom: 0em;
+  font-size: 4em;
+  font-weight: normal;
+}
+.masthead h2 {
+  font-size: 1.7em;
+  font-weight: normal;
+}
+
+.ui.vertical.stripe {
+  padding: 8em 0em;
+}
+.ui.vertical.stripe h3 {
+  font-size: 2em;
+}
+.ui.vertical.stripe .button + h3,
+.ui.vertical.stripe p + h3 {
+  margin-top: 3em;
+}
+.ui.vertical.stripe .floated.image {
+  clear: both;
+}
+.ui.vertical.stripe p {
+  font-size: 1.33em;
+}
+.ui.vertical.stripe .horizontal.divider {
+  margin: 3em 0em;
+}
+
+.quote.stripe.segment {
+  padding: 0em;
+}
+.quote.stripe.segment .grid .column {
+  padding-top: 5em;
+  padding-bottom: 5em;
+}
+
+.footer.segment {
+  padding: 5em 0em;
+}
+
+.secondary.pointing.menu .toc.item {
+  display: none;
+}
+
+@media only screen and (max-width: 700px) {
+  .ui.fixed.menu {
+    display: none !important;
+  }
+  .secondary.pointing.menu .item,
+  .secondary.pointing.menu .menu {
+    display: none;
+  }
+  .secondary.pointing.menu .toc.item {
+    display: block;
+  }
+  .masthead.segment {
+    min-height: 350px;
+  }
+  .masthead h1.ui.header {
+    font-size: 2em;
+    margin-top: 1.5em;
+  }
+  .masthead h2 {
+    margin-top: 0.5em;
+    font-size: 1.5em;
+  }
+}
+
+code {
+  border-radius: 3px;
+  display: inline-block;
+  //font-family: "Monaco","Menlo","Ubuntu Mono","Consolas","source-code-pro",monospace;
+  //font-size: 1.2em;
+  font-weight: bold;
+  padding: 1px 6px;
+  vertical-align: baseline;
+}
+
+//.results.transition.visible {
+//  padding: 0!important;
+//  .result {
+//    padding: 0!important;
+//    .content {
+//      padding: 0!important;
+//    }
+//  }
+//}
+
+image-cropper.small {
+  width: 70% !important;
+  margin-left: 15% !important;
+}

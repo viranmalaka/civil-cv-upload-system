@@ -1,0 +1,24 @@
+.list-fields {
+  display: inline;
+  div {
+    width: auto !important;
+  }
+}
+
+.ui.icon.input {
+  margin: 3px;
+}
+
+sui-search {
+  width: 100%;
+}
+
+
+.ui.circular.icon.button {
+  background: none;
+  border: solid 1px #d2cece;
+  opacity: .5;
+  &:hover {
+    opacity: 1;
+  }
+}

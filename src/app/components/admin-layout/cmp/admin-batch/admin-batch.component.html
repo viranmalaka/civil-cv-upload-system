@@ -1,0 +1,69 @@
+<table class="ui compact celled table">
+  <thead class="full-width">
+  <tr>
+    <th colspan="5">
+      <div class="ui right floated small primary labeled icon button" (click)="openForm(true)">
+        <i class="add icon"></i> Add Batch
+      </div>
+    </th>
+  </tr>
+  </thead>
+  <thead>
+  <tr>
+    <th class="one wide">#</th>
+    <th class="five wide">Name</th>
+    <th class="five wide">Pass out year</th>
+    <th class="two wide">Count</th>
+    <th class="three wide"></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let x of batchList; let i = index">
+    <td data-label="index">{{i + 1}}</td>
+    <td data-label="name">{{x.name}}</td>
+    <td data-label="year">{{x.passOutYear}}</td>
+    <td data-label="year">0</td>
+    <td data-label="controllers" class="center aligned">
+      <button class="ui green icon button" suiPopup popupText="Edit" popupInverted popupPlacement="top"
+        (click)="openForm(false, x)">
+        <i class="edit icon"></i>
+      </button>
+      <button class="ui red icon button"  suiPopup popupText="Remove" popupInverted popupPlacement="top"
+       (click)="openDelete(x)">
+        <i class="delete icon"></i>
+      </button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<ng-template let-context let-modal="modal" #addModal>
+  <div class="header">Add Batch</div>
+  <div class="content">
+    <form class="ui form">
+      <div class="field">
+        <label>Name: </label>
+        <input type="text" name="name" placeholder="Batch name" [(ngModel)]="batch['name']">
+      </div>
+      <div class="field">
+        <label>Pass out year: </label>
+        <input placeholder="Pass out year" [(ngModel)]="batch['passOutYear']" name="year">
+      </div>
+    </form>
+  </div>
+  <div class="actions">
+    <button class="ui red button" (click)="modal.deny(false)">Cancel</button>
+    <button class="ui green button" (click)="modal.approve(true)" autofocus>{{context.data.btn}}</button>
+  </div>
+</ng-template>
+
+<ng-template let-context let-modal="modal" #deleteModal>
+  <div class="header">Delete ?</div>
+  <div class="content">
+    <p>Are you sure you want to delete this batch ? {{context.data.name}}</p>
+  </div>
+  <div class="actions">
+    <button class="ui green button" (click)="modal.deny(false)">Cancel</button>
+    <button class="ui red button" (click)="modal.approve(true)" autofocus>DELETE</button>
+  </div>
+</ng-template>

@@ -1,0 +1,56 @@
+<div class="ui grid">
+  <div class="three wide column">
+    <div class="ui fluid vertical menu">
+      <div class="item">
+        <div class="header">Candidate</div>
+        <div class="menu">
+          <a class="item" [class.active]="comp === 'add-one'" (click)="comp = 'add-one'">Add</a>
+          <a class="item" [class.active]="comp === 'bulk'" (click)="comp = 'bulk'">Bulk Add</a>
+          <a class="item" [class.active]="comp === 'view'" (click)="comp = 'view'">View</a>
+        </div>
+      </div>
+      <div class="item">
+        <div class="header">Lists</div>
+        <div class="menu">
+          <a class="item" [class.active]="comp === 'batch'" (click)="comp = 'batch'">Batches</a>
+          <a class="item" [class.active]="comp === 'firm'" (click)="comp = 'firm'">Firms</a>
+          <a class="item" [class.active]="comp === 'position'" (click)="comp = 'position'">Positions</a>
+          <a class="item" [class.active]="comp === 'school'" (click)="comp = 'school'">Schools</a>
+        </div>
+      </div>
+      <div class="item">
+        <div class="header">Hosting</div>
+        <div class="menu">
+          <a class="item">Shared</a>
+          <a class="item">Dedicated</a>
+        </div>
+      </div>
+      <div class="item">
+        <div class="header">Support</div>
+        <div class="menu">
+          <a class="item">E-mail Support</a>
+          <a class="item">FAQs</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eleven wide column">
+    <div class="ui segments">
+      <!--personal-->
+      <div class="ui segment">
+        <h1>{{getTitle(comp)}}</h1>
+      </div>
+      <div class="ui raised segment">
+        <app-admin-add-one *ngIf="comp === 'add-one'"></app-admin-add-one>
+        <app-admin-bulk-add *ngIf="comp === 'bulk'"></app-admin-bulk-add>
+        <app-admin-view *ngIf="comp === 'view'"></app-admin-view>
+
+        <app-admin-batch *ngIf="comp === 'batch'"></app-admin-batch>
+        <app-admin-firm *ngIf="comp === 'firm'"></app-admin-firm>
+        <app-admin-positions *ngIf="comp === 'position'"></app-admin-positions>
+        <app-admin-school *ngIf="comp === 'school'"></app-admin-school>
+      </div>
+    </div>
+  </div>
+</div>

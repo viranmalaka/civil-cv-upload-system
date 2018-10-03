@@ -1,0 +1,28 @@
+<div class="ui center aligned grid">
+  <div class="ui aligned eight wide column">
+
+    <div class="ui segment" *ngIf="user.cvUploadedAt">
+      <p>Last updated cv : {{user.cvUploadedAt | date:'medium'}}</p>
+      Download Current version: <a href="/csv/{{user.index}}.pdf" target="_blank">here</a>
+    </div>
+    <div class="ui segment" *ngIf="!user.cvUploadedAt">
+      <p>You don't have uploaded any CV yet.</p>
+    </div>
+
+    <div class="ui segment">
+      <p>Please upload pdf file less than 2.00 MB</p>
+      <div class="ui vertical animated button" tabindex="0">
+        <div class="hidden content">
+          <label for="cv">Upload</label>
+        </div>
+        <div class="visible content">
+          <i class="upload icon"></i>
+        </div>
+      </div>
+    </div>
+
+    <input type="file" style="display: none;"
+           (change)="upload()" id="cv" accept="application/pdf"/>
+
+  </div>
+</div>

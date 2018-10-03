@@ -1,0 +1,40 @@
+<table class="ui compact celled table">
+  <thead>
+  <tr>
+    <th class="one wide">#</th>
+    <th class="eight wide">Name</th>
+    <th class="three wide">Count</th>
+    <th class="three wide"></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let x of schoolList; let i = index">
+    <td data-label="index">{{i + 1}}</td>
+    <td data-label="Name">{{x}}</td>
+    <td data-label="Count">0</td>
+    <td data-label="controllers" class="center aligned">
+      <button class="ui green icon button" suiPopup popupText="Edit" popupInverted popupPlacement="top"
+              (click)="openForm(x)">
+        <i class="edit icon"></i>
+      </button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+
+<ng-template let-context let-modal="modal" #modal>
+  <div class="header">Add School</div>
+  <div class="content">
+    <form class="ui form">
+      <div class="field">
+        <label>Name: </label>
+        <input type="text" [value]="context.data" #txtSchool name="name" placeholder="School name">
+      </div>
+    </form>
+  </div>
+  <div class="actions">
+    <button class="ui red button" (click)="modal.deny(false)">Cancel</button>
+    <button class="ui green button" (click)="modal.approve(txtSchool.value)" autofocus>EDIT</button>
+  </div>
+</ng-template>

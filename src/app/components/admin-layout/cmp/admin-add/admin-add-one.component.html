@@ -1,0 +1,29 @@
+<form class="ui form">
+  <div class="five wide field">
+    <label>Index: </label>
+    <input type="text" name="index" placeholder="Index" [(ngModel)]="index">
+  </div>
+  <div class="five wide field">
+    <label>Batch: </label>
+    <sui-select class="selection"
+                [(ngModel)]="selectedOption"
+                [options]="filteredOptions"
+                labelField="name"
+                name="batch"
+                #select>
+      <sui-select-option *ngFor="let option of filteredOptions"
+                         [value]="option">
+      </sui-select-option>
+    </sui-select>
+  </div>
+  <button class="ui blue button" type="submit" (click)="addOne()">Submit</button>
+</form>
+
+<br>
+
+<sui-message class="success" *ngIf="msg">
+  <div class="header">
+    New Candidate added. ({{usrData.index}})
+  </div>
+  <p>Here is the password. safely share this : <code>{{usrData.pass}}</code></p>
+</sui-message>
