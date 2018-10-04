@@ -3,6 +3,7 @@ import {UserService} from '../../services/user.service';
 import {IContext} from '../admin-layout/cmp/admin-batch/admin-batch.component';
 import {TemplateModalConfig, ModalTemplate, SuiModalService} from 'ng2-semantic-ui';
 import {ToastrService} from 'ngx-toastr';
+import {Router} from '@angular/router';
 
 export interface IContext {
   data: any;
@@ -19,6 +20,7 @@ export class UserAccountLayoutComponent implements OnInit {
   mode = 'pdf';
   pagelock = false;
   currentUser;
+  jobStatus = false;
 
   title = 'Personal Details';
 
@@ -26,7 +28,8 @@ export class UserAccountLayoutComponent implements OnInit {
   croppedImage: any = '';
   dpSrc = '../../../assets/images/user-dummy.png';
 
-  constructor(private userAPI: UserService, private modalService: SuiModalService, private toastr: ToastrService) {
+  constructor(private userAPI: UserService, private modalService: SuiModalService, private toastr: ToastrService,
+              private router: Router) {
     userAPI.getMe().subscribe(data => {
       userAPI.currentUsr = data.user;
       this.currentUser = data.user;
@@ -34,10 +37,10 @@ export class UserAccountLayoutComponent implements OnInit {
         this.mode = 'pass';
         this.pagelock = true;
       }
-      console.log(this.currentUser);
       if (this.currentUser['hasDP']) {
         this.dpSrc = '//localhost:3000/dp/' + this.currentUser.index + '.png';
       }
+      this.jobStatus = this.currentUser['lookingForJob'];
     });
   }
 
@@ -109,6 +112,19 @@ export class UserAccountLayoutComponent implements OnInit {
           });
         }
       });
+  }
+
+  changeJobStatus() {
+    this.userAPI.editJobStatus(this.jobStatus).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  logout() {
+    this.userAPI.currentUsr = null;
+    this.userAPI.token = '';
+    this.userAPI.isLoggedIn = false;
+    this.router.navigate(['/']);
   }
 
 }

@@ -27,6 +27,12 @@ export class UserService {
     return this.http.get(this.domain + 'me', {headers: headers});
   }
 
+  getAll() {
+    const headers = new HttpHeaders()
+      .set('x-access-token', this.token);
+    return this.http.get(this.domain + 'public', {headers: headers});
+  }
+
   createOne(data): Observable<any> {
     const headers = new HttpHeaders()
       .set('x-access-token', this.token);
@@ -80,6 +86,13 @@ export class UserService {
   }
 
 
+  editJobStatus(lookingForJob: any): Observable<any> {
+    const headers = new HttpHeaders()
+      .set('x-access-token', this.token);
+    return this.http.put(this.domain + 'edit-looking-for-job', {job: lookingForJob},
+      {headers: headers});
+  }
+
   getBase64(file, next) {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -90,4 +103,5 @@ export class UserService {
       next(error);
     };
   }
+
 }
