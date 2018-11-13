@@ -6,12 +6,16 @@ import {LayoutComponent} from './components/layout/layout.component';
 import {UserAccountLayoutComponent} from './components/user-account-layout/user-account-layout.component';
 import {AdminLayoutComponent} from './components/admin-layout/admin-layout.component';
 import {AuthGuardService} from './services/auth-guard.service';
+import {SearchComponent} from './components/search/search.component';
+import {UserPublicComponent} from './components/user-public/user-public.component';
 
 const routes: Routes = [
   {
     path : '', component: LayoutComponent, children : [
       {path: '', component: HomeComponent},
       {path: 'login', component: LoginComponent},
+      {path: 'search', component: SearchComponent},
+      {path: 'public/:id/:name', component: UserPublicComponent}
     ]
   },
   {path: 'user-account', component: UserAccountLayoutComponent, canActivate: [AuthGuardService]},

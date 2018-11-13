@@ -31,7 +31,7 @@ export class UsrPasswdComponent implements OnInit {
       if (this.pass.newPass !== this.pass.confirm) {
         this.toastr.error('Passwords not matches');
       } else {
-        if (this.pass.newPass.length < 4) {
+        if (this.pass.newPass.length < 6) {
           this.toastr.error('Password should have at least 4 characters');
         } else {
           this.userAPI.changePassword(this.pass.curr, this.pass.newPass).subscribe(data => {

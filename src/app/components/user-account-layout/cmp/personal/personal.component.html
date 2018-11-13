@@ -27,6 +27,11 @@
   </div>
 
 
+  <div class="ten wide column field">
+    <label>LinkedIn URL: </label>
+    <input type="text" name="linkedIn" placeholder="Linked in URL" [(ngModel)]="currentUser['linkedIn']">
+  </div>
+
   <div class="field">
     <label>Contact No: </label>
     <div class="list-fields">
@@ -37,7 +42,7 @@
       <div class="ui icon input">
         <input type="text" placeholder="New Contact Number.." #cntNo>
         <i class="circular blue add link icon"
-           (click)="addList(currentUser['contactNo'], cntNo.value); cntNo.value = ''"></i>
+           (click)="addList('tel', cntNo.value); cntNo.value = ''"></i>
       </div>
     </div>
   </div>
@@ -52,7 +57,7 @@
       <div class="ui icon input">
         <input type="email" placeholder="New Email.." #emailId>
         <i class="circular blue add link icon"
-           (click)="addList(currentUser['email'], emailId.value); emailId.value = ''"></i>
+           (click)="addList('email', emailId.value); emailId.value = ''"></i>
       </div>
     </div>
   </div>

@@ -85,9 +85,14 @@ export class ExperienceComponent implements OnInit {
       exp['firm'] = this.selectedFirm;
       exp['position'] = this.selectedPosition;
 
-      this.sendEditRequest(() => {
-        this.myExperience[index].isOpen = true;
-      });
+      if(exp.from > 2010 && exp.to > 2011 && exp.to > exp.from ) {
+        this.sendEditRequest(() => {
+          this.myExperience[index].isOpen = true;
+          this.mode = '';
+        });
+      } else {
+        this.toastr.warning('Invalid years');
+      }
     } catch (e) {
       this.toastr.error('Validation Error');
     }

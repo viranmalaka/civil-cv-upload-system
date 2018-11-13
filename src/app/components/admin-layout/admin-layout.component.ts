@@ -11,9 +11,7 @@ export interface IContext {
 })
 export class AdminLayoutComponent implements OnInit {
 
-  comp = 'bulk';
-  @ViewChild('picMod') public picMod: ModalTemplate<IContext, string, string>;
-
+  comp = 'view';
 
   constructor() { }
 
@@ -31,5 +29,7 @@ export class AdminLayoutComponent implements OnInit {
       case 'position': return 'Positions';
     }
   }
+
+
 
 }

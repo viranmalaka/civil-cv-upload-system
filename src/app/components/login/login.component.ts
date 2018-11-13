@@ -11,8 +11,8 @@ import {ToastrService} from 'ngx-toastr';
 export class LoginComponent implements OnInit {
 
   usr = {
-    index: 'sadmin',
-    password: 'test123',
+    index: '140107',
+    password: 'test',
   };
 
   constructor(private user: UserService, private route: Router, private toastr: ToastrService) {

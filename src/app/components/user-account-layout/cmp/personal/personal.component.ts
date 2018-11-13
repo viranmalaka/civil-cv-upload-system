@@ -52,6 +52,7 @@ export class PersonalComponent implements OnInit {
       email: this.currentUser['email'],
       accountEmail: this.currentUser['accountEmail'],
       school: this.currentUser['school'],
+      linkedIn: this.currentUser['linkedIn'],
     };
 
     this.userAPI.updatePersonal(body).subscribe(data => {
@@ -66,8 +67,24 @@ export class PersonalComponent implements OnInit {
     });
   }
 
-  addList(mdl, val) {
-    mdl.push(val);
+  addList(mode, val) {
+    if (mode === 'email') {
+      // tslint:disable
+      const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      // tslint:enable
+      if (re.test(String(val).toLowerCase())) {
+        this.currentUser['email'].push(val);
+      } else {
+        this.toastr.warning('Invalid');
+      }
+    } else {
+      const re = /((\+94)|0)?[1-9][0-9]{8}/;
+      if (re.test(String(val).toLowerCase())) {
+        this.currentUser['contactNo'].push(val);
+      } else {
+        this.toastr.warning('Invalid');
+      }
+    }
   }
 
   removeList(mdl, index) {
@@ -79,16 +96,22 @@ export class PersonalComponent implements OnInit {
     try {
       const from = parseInt(this.searchSchool['from'], 10);
       const to = parseInt(this.searchSchool['to'], 10);
-      if (this.searchSchool['searchText'] === undefined || this.searchSchool['searchText'] === '') {
-        this.toastr.error('Validation error in name');
+      if (from > 1997 && to > 1998 && from < to && to - from < 14) {
+
+        if (this.searchSchool['searchText'] === undefined || this.searchSchool['searchText'] === '') {
+          this.toastr.error('Validation error in name');
+        } else {
+          this.currentUser['school'].push({
+            name: this.searchSchool['searchText'],
+            from: from,
+            to: to,
+          });
+        }
+        this.searchSchool = {};
       } else {
-        this.currentUser['school'].push({
-          name: this.searchSchool['searchText'],
-          from: from,
-          to: to,
-        });
+        this.toastr.warning('Invalid years');
       }
-      this.searchSchool = {};
+
     } catch (e) {
       this.toastr.error('Validation error');
     }

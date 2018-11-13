@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
 import {environment} from '../../environments/environment';
 
@@ -17,80 +17,70 @@ export class UserService {
   constructor(private http: HttpClient) {
   }
 
+  getHeader() {
+    return new HttpHeaders().set('x-access-token', this.token);
+  }
+
   postLogin(usr): Observable<any> {
     return this.http.post(this.domain + 'login', usr);
   }
 
   getMe(): Observable<any> {
-    const headers = new HttpHeaders()
-      .set('x-access-token', this.token);
-    return this.http.get(this.domain + 'me', {headers: headers});
+    return this.http.get(this.domain + 'me', {headers: this.getHeader()});
   }
 
   getAll() {
-    const headers = new HttpHeaders()
-      .set('x-access-token', this.token);
-    return this.http.get(this.domain + 'public', {headers: headers});
+    return this.http.get(this.domain + 'get-all', {headers: this.getHeader()});
+  }
+
+  search(args) {
+    return this.http.get(this.domain + 'search', {params: args});
   }
 
   createOne(data): Observable<any> {
-    const headers = new HttpHeaders()
-      .set('x-access-token', this.token);
-    return this.http.post(this.domain + 'create-user', data, {headers: headers});
+    return this.http.post(this.domain + 'create-user', data, {headers: this.getHeader()});
   }
 
   bulkAddCSV(formData): Observable<any> {
-    const headers = new HttpHeaders()
-      .set('x-access-token', this.token);
-    return this.http.post(this.domain + 'bulk-users', formData, {headers: headers});
+    return this.http.post(this.domain + 'bulk-users', formData, {headers: this.getHeader()});
   }
 
   uploadCV(b64): Observable<any> {
-    const headers = new HttpHeaders()
-      .set('x-access-token', this.token);
-    return this.http.post(this.domain + 'cv-upload', {cv: b64}, {headers: headers});
+    return this.http.post(this.domain + 'cv-upload', {cv: b64}, {headers: this.getHeader()});
   }
 
   uploadDP(b64): Observable<any> {
-    const headers = new HttpHeaders()
-      .set('x-access-token', this.token);
-    return this.http.post(this.domain + 'dp-upload', {dp: b64}, {headers: headers});
+    return this.http.post(this.domain + 'dp-upload', {dp: b64}, {headers: this.getHeader()});
   }
 
   changePassword(oldPass, newPass): Observable<any> {
-    const headers = new HttpHeaders()
-      .set('x-access-token', this.token);
     return this.http.post(this.domain + 'change-password', {oldPass: oldPass, newPass: newPass},
-      {headers: headers});
+      {headers: this.getHeader()});
   }
 
   updatePersonal(usr): Observable<any> {
-    const headers = new HttpHeaders()
-      .set('x-access-token', this.token);
     return this.http.put(this.domain + 'edit', usr,
-      {headers: headers});
+      {headers: this.getHeader()});
   }
 
   editExperience(exp): Observable<any> {
-    const headers = new HttpHeaders()
-      .set('x-access-token', this.token);
     return this.http.put(this.domain + 'edit-experience', {experience: exp},
-      {headers: headers});
+      {headers: this.getHeader()});
   }
 
   editExtra(ext): Observable<any> {
-    const headers = new HttpHeaders()
-      .set('x-access-token', this.token);
     return this.http.put(this.domain + 'edit-extra', {extra: ext},
-      {headers: headers});
+      {headers: this.getHeader()});
   }
 
 
-  editJobStatus(lookingForJob: any): Observable<any> {
-    const headers = new HttpHeaders()
-      .set('x-access-token', this.token);
+  editJobStatus(lookingForJob: boolean): Observable<any> {
     return this.http.put(this.domain + 'edit-looking-for-job', {job: lookingForJob},
-      {headers: headers});
+      {headers: this.getHeader()});
+  }
+
+  getPublicPage(userId: string): Observable<any> {
+    return this.http.get(this.domain + 'public/' + userId);
   }
 
   getBase64(file, next) {
@@ -103,5 +93,17 @@ export class UserService {
       next(error);
     };
   }
+
+  changeJobStates(arr: any[], value): Observable<any> {
+    return this.http.put(this.domain + 'edit-jobs', {arr: arr, val: value},
+      {headers: this.getHeader()});
+  }
+
+  editSpecial(selectedOptions: any) {
+
+    return this.http.put(this.domain + 'edit-special', {special: selectedOptions},
+      {headers: this.getHeader()});
+  }
+
 
 }

@@ -1,0 +1,20 @@
+#batch_id {
+  display: inline;
+}
+
+#outter{
+  height: 100%;
+  background:  linear-gradient(to bottom, #9bc0ff, white);
+  .ui.container {
+    padding: 10px;
+    background: white;
+  }
+}
+
+.ten.wide.column {
+  //margin-top: 10px;
+}
+
+a.ui.label {
+  margin-left: 0 !important;
+}

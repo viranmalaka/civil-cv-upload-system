@@ -1,3 +1,33 @@
+<div class="ui buttons" style="margin: 2px">
+  <button class="ui labeled icon button" (click)="changeSettings()">
+    <i class="left settings icon"></i>
+    Settings
+  </button>
+  <button class="ui right labeled icon button" (click)="menu = !menu">
+    More
+    <i class="right chevron icon"></i>
+  </button>
+</div>
+
+<div class="ui dropdown" suiDropdown [(isOpen)]="menu">
+  <div class="menu" suiDropdownMenu>
+
+    <a class="item" [class.disabled]="gridAPI?.getSelectedRows().length !== 1">Go to public account</a>
+    <div class="item">New</div>
+    <div class="divider"></div>
+    <div class="item" suiDropdown  [class.disabled]="gridAPI?.getSelectedRows().length === 0">
+      <i class="dropdown icon"></i>
+      Chnage Job State
+      <div class="menu" suiDropdownMenu>
+        <div class="item" (click)="changeJobStates(false)">Got One</div>
+        <div class="item" (click)="changeJobStates(true)">Finding</div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="item" (click)="exportCSVModal()">Export Table as CSV file</div>
+  </div>
+</div>
+
 <div style="height: calc(100vh - 150px)">
   <ag-grid-angular
     style="width: 100%; height: 100%;"
@@ -6,7 +36,85 @@
     [columnDefs]="columnDefs"
     [enableSorting]="true"
     [animateRows]="true"
-    multiSortKey='ctrl'
+    [enableColResize]="true"
+    [rowDragManaged]="true"
+    rowSelection="multiple"
+    [suppressRowClickSelection]="true"
+    [rowDeselection]="true"
+    (gridReady)="onGridReady($event)"
   >
   </ag-grid-angular>
 </div>
+
+
+<ng-template let-context let-modal="modal" #settingMod>
+  <div class="header">Table Settings</div>
+  <div class="scrolling content">
+    <div class="ui form">
+      <div class="grouped fields">
+        <label>Select which columns to show</label>
+        <div class="field">
+          <sui-checkbox [(ngModel)]="colVisibility.index">Index No.</sui-checkbox>
+          <sui-checkbox [(ngModel)]="colVisibility['batch.name']">Batch</sui-checkbox>
+          <sui-checkbox [(ngModel)]="colVisibility.name">Name</sui-checkbox>
+          <sui-checkbox [(ngModel)]="colVisibility.address">Address</sui-checkbox>
+          <sui-checkbox [(ngModel)]="colVisibility.accountEmail">Account Email</sui-checkbox>
+          <sui-checkbox [(ngModel)]="colVisibility.status">Status</sui-checkbox>
+          <sui-checkbox [(ngModel)]="colVisibility.cvUploadedAt">CV Uploaded At</sui-checkbox>
+          <sui-checkbox [(ngModel)]="colVisibility.hasDP">Has DP</sui-checkbox>
+          <sui-checkbox [(ngModel)]="colVisibility.lookingForJob">Looking For Job</sui-checkbox>
+          <sui-checkbox [(ngModel)]="colVisibility.firstRowPassword">First Time Password</sui-checkbox>
+        </div>
+      </div>
+
+    </div>
+
+    <button class="ui button" (click)="gridAPI.sizeColumnsToFit()">Fit Columns Width</button>
+
+    <div class="ui message">
+      <div class="header">
+        Note *
+      </div>
+      <p>You can select which columns to be displayed from above checkboxes or simply drag the column header
+      to outside of the table until you appear the invisible sign.</p>
+      <p>Change the column widths by moving the small vertical line in the header of the table or
+        the <code>'Fit Columns Width'</code> button fits all the column automatically.</p>
+      <p>You can drag and rearrange the rows in the table by using the dots icon in the ID column</p>
+      <p>Sort columns by simply click on the column header name. It has ascending, descending or non states.
+        You can use <code>Ctrl</code> key to sort by multiple columns</p>
+    </div>
+  </div>
+  <div class="actions">
+    <button class="ui blue button" (click)="modal.approve(true)" autofocus>OK</button>
+  </div>
+</ng-template>
+
+
+<ng-template let-context let-modal="modal" #exportCSV>
+  <div class="header">Export CSV</div>
+  <div class="scrolling content">
+    <div class="ui form">
+      <div class="grouped fields">
+        <div class="field">
+          <label>File Name</label>
+          <input type="text" [(ngModel)]="filename">
+        </div>
+
+        <div class="field">
+          <label>Select which columns to Export</label>
+          <sui-checkbox [(ngModel)]="csvExport.index">Index No.</sui-checkbox>
+          <sui-checkbox [(ngModel)]="csvExport['batch.name']">Batch</sui-checkbox>
+          <sui-checkbox [(ngModel)]="csvExport.name">Name</sui-checkbox>
+          <sui-checkbox [(ngModel)]="csvExport.address">Address</sui-checkbox>
+          <sui-checkbox [(ngModel)]="csvExport.accountEmail">Account Email</sui-checkbox>
+          <sui-checkbox [(ngModel)]="csvExport.lookingForJob">Looking For Job</sui-checkbox>
+          <sui-checkbox [(ngModel)]="csvExport.firstRowPassword">First Time Password</sui-checkbox>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="actions">
+    <button class="ui blue button" (click)="modal.approve(true)" autofocus>Download</button>
+  </div>
+</ng-template>

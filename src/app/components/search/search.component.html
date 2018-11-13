@@ -1,3 +1,97 @@
-<p>
-  search works!
-</p>
+<div class="ui container">
+  <div class="search-area">
+    <div class="ui grid">
+      <div class="eight wide column">
+        <div class="ui grid search-area">
+          <div class="ui big right action left icon input">
+            <i class="search icon"></i>
+            <input type="text" placeholder="Search" [(ngModel)]="filterArgs.name">
+            <sui-select class="ui basic floating dropdown button" placeholder="Batch"
+                        [(ngModel)]="selectedBatch" labelField="name"
+
+            >
+              <sui-select-option [value]="{name: 'All', value: ''}"></sui-select-option>
+              <sui-select-option [value]="x" *ngFor="let x of batches"></sui-select-option>
+            </sui-select>
+
+            <!--<sui-checkbox [(ngModel)]="filterArgs.available">Available</sui-checkbox>-->
+            <div class="ui button" suiPopup popupText="Filter only available candidates"
+                 [ngClass]="{basic : !filterArgs.available, green: filterArgs.available}"
+                  (click)="filterArgs.available = !filterArgs.available">
+              {{filterArgs.available ? 'Available' : 'All'}}
+            </div>
+            <div class="ui button" (click)="search()">Search</div>
+          </div>
+        </div>
+
+      </div>
+      <div class="eight wide column">
+        <sui-multi-select class="selection fluid" placeholder="Specialized Fields"
+                          [(ngModel)]="selectedOptions"
+                          [hasLabels]="true"
+                          #multiSelect>
+          <sui-select-option *ngFor="let option of options"
+                             [value]="option">
+          </sui-select-option>
+        </sui-multi-select>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="result-area">
+    <div class="ui stacked segment">
+      <div class="ui segment hover-raised" *ngFor="let u of results" [routerLink]="['..', 'public', u._id, u.name.replace(' ', '')]">
+        <div class="ui grid">
+          <div class="three wide column">
+            <a class="ui ribbon label" [ngClass]="{green: u.lookingForJob, red : !u.lookingForJob }">
+              {{u.lookingForJob ? 'Available' : 'Working'}}</a>
+            <img class="ui medium circular image" src="../../../assets/images/user-dummy.png" *ngIf="!u.hasDP">
+            <img class="ui medium circular image" src="/dp/{{u.index}}.png" *ngIf="u.hasDP">
+          </div>
+          <div class="thirteen wide column">
+            <h2 class="ui header">
+              <div class="content">
+                {{u.name}}
+                <div class="sub header">{{u.batch.name}}</div>
+              </div>
+            </h2>
+            <div class="ui divided selection list">
+              <div class="item">
+                <div class="ui horizontal label">Schools</div>
+                {{ getSchools(u.school) }}
+              </div>
+              <div class="item">
+                <div class="ui horizontal label">Emails:</div>
+                {{ u.email.join(' | ')}}
+              </div>
+              <div class="item">
+                <div class="ui horizontal label">Specialized In :</div>
+                {{ u.special.join(' | ')}}
+              </div>
+              <div class="item">
+                <div class="ui horizontal label">Contact No:</div>
+                {{ u.contactNo.join(' | ')}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin: 0 auto; display: table;">
+
+      <sui-pagination  [collectionSize]="pagination.count"
+                      [pageSize]="10"
+                      [maxSize]="5"
+                      [canRotate]="true"
+                      [(page)]="filterArgs.page"
+                      (pageChange)="search()"
+      >
+      </sui-pagination>
+        Total: {{pagination.count}}
+
+      </div>
+    </div>
+  </div>
+
+</div>

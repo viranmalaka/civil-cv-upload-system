@@ -33,6 +33,7 @@ import {ToastrModule} from 'ngx-toastr';
 import {BatchApiService} from './services/batch-api.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { UserPublicComponent } from './components/user-public/user-public.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     AdminPositionsComponent,
     AdminBulkAddComponent,
     AdminViewComponent,
-  ],
+    UserPublicComponent,
+],
   imports: [
     FormsModule,
     AgGridModule.withComponents([]),

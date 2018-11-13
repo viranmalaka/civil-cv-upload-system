@@ -1,0 +1,101 @@
+<div id="outter">
+  <div class="ui container">
+    <div class="ui grid">
+      <div class="four wide column">
+        <img *ngIf="!currentUser?.hasDP" class="ui medium circular image" src="../../../assets/images/user-dummy.png">
+        <img *ngIf="currentUser?.hasDP" class="ui medium circular image"
+             src="//localhost:3000/dp/{{currentUser?.index}}.png">
+        <div class="ui fluid icon blue button">
+          <i class="icon download"></i>
+          Download My CV
+        </div>
+      </div>
+      <div class="ten wide column">
+        <h1 class="ui header">{{currentUser?.name}} <div class="sub header" id="batch_id">({{currentUser?.batch?.name}})</div></h1>
+
+        <div class="ui two column grid">
+          <div class="column">
+            <h4 class="ui header">
+              Emails
+              <div class="sub header">
+                <div class="ui celled animated list">
+                  <a class="item" *ngFor="let x of currentUser?.email" href="mailto:{{x}}">{{x}}</a>
+                </div>
+              </div>
+            </h4>
+          </div>
+          <div class="column">
+            <h4 class="ui header">
+              Telephone No
+              <div class="sub header">
+                <div class="ui celled animated list">
+                  <div class="item" *ngFor="let x of currentUser?.contactNo">{{x}}</div>
+                </div>
+              </div>
+            </h4>
+          </div>
+        </div>
+
+        <h4 class="ui header" *ngIf="currentUser?.linkedIn">
+          LinkedIn
+          <div class="sub header">
+            <div class="ui celled animated list">
+              <a class="item" href="{{currentUser?.linkedIn}}" target="_blank">
+                <i class="linkedin icon"></i>
+                {{currentUser?.linkedIn}}</a>
+            </div>
+          </div>
+        </h4>
+
+        <h4 class="ui header" *ngIf="currentUser?.school?.length > 0">
+          Schools
+          <div class="sub header">
+            <div class="ui celled animated list">
+              <div class="item" *ngFor="let x of currentUser?.school">{{x.name}} : {{x.from}} - {{x.to}}</div>
+            </div>
+          </div>
+        </h4>
+        <h4 class="ui header">
+          Specialized In
+          <div class="sub header">
+            <div class="ui celled list">
+              <div class="item">
+                <a class="ui label" *ngFor="let x of currentUser?.special">{{x}}</a>
+              </div>
+            </div>
+          </div>
+        </h4>
+      </div>
+    </div>
+
+    <div class="ui two column grid">
+      <div class="column">
+        <h2 class="ui header">
+          <i class="edit icon"></i>
+          <div class="content">
+            Experiences
+          </div>
+        </h2>
+        <div class="ui celled list">
+          <div class="item" *ngFor="let x of currentUser?.experience">
+            <div class="ui label">{{x.firm}}</div>
+            : {{x.position}}
+            ({{x.from}} - {{x.to}})
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <h2 class="ui header">
+          <i class="hourglass half icon"></i>
+          <div class="content">
+            Extracurricular Activities
+          </div>
+        </h2>
+        <div class="ui celled list">
+          <div class="item" *ngFor="let x of currentUser?.extra">{{x}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-
+var mongoosePagination = require('mongoose-paginate');
 var UserSchema = new mongoose.Schema({
     index: {type: String, unique: true},
     batch: {type: mongoose.Schema.Types.ObjectId, ref: 'Batch'},
@@ -24,6 +24,8 @@ var UserSchema = new mongoose.Schema({
             present: Boolean
         }
     ],
+    linkedIn: String,
+    special: [String],
     extra: [String],
     currentlyWorking: {
         firm: String,
@@ -39,6 +41,7 @@ var UserSchema = new mongoose.Schema({
     resetKey: String,
     firstRowPassword: String,
 });
+UserSchema.plugin(mongoosePagination);
 mongoose.model('User', UserSchema);
 
 module.exports = mongoose.model('User');

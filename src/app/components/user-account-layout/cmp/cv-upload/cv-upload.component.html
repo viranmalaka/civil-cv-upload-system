@@ -1,4 +1,25 @@
 <div class="ui center aligned grid">
+  <div class="ui left aligned twelve wide column">
+    <div class="ui segment">
+      <div class="ui form left aligned">
+        <div class="field">
+          <label>I am specialized in :</label>
+          <sui-multi-select class="selection"
+                            [(ngModel)]="selectedOptions"
+                            [isSearchable]="true"
+                            [hasLabels]="true"
+                            #multiSelect>
+            <sui-select-option *ngFor="let option of options"
+                               [value]="option">
+            </sui-select-option>
+          </sui-multi-select>
+        </div>
+      </div>
+      <div class="field" style="padding-top: 5px">
+        <div class="ui blue button" (click)="saveSpecial()">Save</div>
+      </div>
+    </div>
+  </div>
   <div class="ui aligned eight wide column">
 
     <div class="ui segment" *ngIf="user.cvUploadedAt">
