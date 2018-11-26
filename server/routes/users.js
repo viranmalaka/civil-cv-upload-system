@@ -96,23 +96,27 @@ router.get('/uEyMTw32v9-create-super-admin', (req, res, next) => {
   }
 });
 
-router.post('/create-user', (req, res, next) => {
-  Batch.findById(req.body.batch, (err, bth) => {
-    if (err) return next(err);
-    if (bth) {
-      createUser({
-        index: req.body.index,
-        batch: bth._id,
-        status: 'first-login',
-        type: 'uom',
-      }, (err, usr) => {
-        if (err) return next(err);
-        res.jsonp({success: true, user: usr});
-      })
-    } else {
-      res.jsonp({success: false});
-    }
-  });
+router.post('/create-user', verifyToken, (req, res, next) => {
+  if(req.userType === 'sadmin' || req.userType === 'admin') {
+    Batch.findById(req.body.batch, (err, bth) => {
+      if (err) return next(err);
+      if (bth) {
+        createUser({
+          index: req.body.index,
+          batch: bth._id,
+          status: 'first-login',
+          type: 'uom',
+        }, (err, usr) => {
+          if (err) return next(err);
+          res.jsonp({success: true, user: usr});
+        })
+      } else {
+        res.jsonp({success: false});
+      }
+    });
+  } else {
+    res.jsonp({success: false});
+  }
 });
 
 router.put('/edit-jobs', verifyToken, (req, res, next) => {
@@ -255,21 +259,10 @@ router.get('/me', verifyToken, function (req, res, next) {
 });
 
 router.get('/get-all', (req, res, next) => {
-    let limit, page;
-    if (req.query['limit']) {
-        limit = req.query['limit'];
-        delete req.query['limit'];
-    }
-    if (req.query['page']) {
-        page = req.query['page'];
-        delete req.query['page'];
-    }
+  let where = req.query;
+  where['type'] = 'uom';
 
-    let select = '-index -status -type -password -resetKey -firstRowPassword';
-    let where = req.query;
-    where['type'] = 'uom';
-
-    User.find(where)
+  User.find(where)
     .populate('batch')
     .exec((err, usrs) => {
       res.jsonp({all: usrs});
@@ -296,18 +289,18 @@ router.get('/search', (req, res, next) => {
   where['type'] = 'uom';
   where['status'] = {$ne: 'first-login'};
 
-  if (req.query['available']==='true') {
+  if (req.query['available'] === 'true') {
     where['lookingForJob'] = true;
   }
   if (req.query['name']) {
-    where['name'] = {$regex: new RegExp(req.query['name'].toLowerCase() , "i")};
+    where['name'] = {$regex: new RegExp(req.query['name'].toLowerCase(), "i")};
   }
   if (req.query['batch']) {
     where['batch'] = req.query['batch'];
   }
   if (req.query['spec']) {
     // console.log()
-    where['special'] = { "$in" : JSON.parse(req.query['spec'])};
+    where['special'] = {"$in": JSON.parse(req.query['spec'])};
   }
 
   User.paginate(where, {
@@ -321,8 +314,29 @@ router.get('/search', (req, res, next) => {
   });
 });
 
-router.get('/admin', verifyToken, (req, res, next) => {
+router.post('/create-admin', verifyToken, (req, res, next) => {
+  if(req.userType === 'sadmin') {
+      createUser({
+        index: req.body['username'],
+        name: req.body['name'],
+        type: 'admin',
+      }, (err, usr) => {
+        if (err) return next(err);
+        res.jsonp({success: true, user: usr});
+      });
+  } else {
+    res.jsonp({success: false});
+  }
+});
 
+router.get('/all-admins', verifyToken, (req, res, next) => {
+  if(req.userType === 'sadmin') {
+    User.find({type: 'admin'}, (err, users) => {
+      res.jsonp({success: true, admins: users});
+    })
+  } else {
+    res.jsonp({success: false});
+  }
 });
 
 // user account features
@@ -420,6 +434,66 @@ router.put('/edit-extra', verifyToken, (req, res, next) => {
   }
 });
 
+
+const CountDetails = {
+  date: null,
+  batch: {},
+  firm: {},
+  school: {},
+  position: {}
+};
+const DAY = 24 * 3600 * 1000;
+
+router.get('/count', (req, res, next) => {
+  // if (req.userType === 'sadmin') {
+    if (req.query.calculate === 'true' || !CountDetails.date || new Date(CountDetails.date.getTime() + DAY).getTime() < new Date().getTime()) {
+      console.log('calculating');
+      CountDetails.batch = {};
+      CountDetails.firm = {};
+      CountDetails.position = {};
+      CountDetails.school = {};
+      CountDetails.date = new Date();
+      User.find({type: 'uom'}, (err, users) => {
+        users.forEach(usr => {
+          if (CountDetails.batch[usr.batch]) {
+            CountDetails.batch[usr.batch]++;
+          } else {
+            CountDetails.batch[usr.batch] = 1;
+          }
+
+          usr.experience.forEach(e => {
+            if (CountDetails.position[e.position]) {
+              CountDetails.position[e.position]++;
+            } else {
+              CountDetails.position[e.position] = 1
+            }
+
+            if (CountDetails.firm[e.firm]) {
+              CountDetails.firm[e.firm]++;
+            } else {
+              CountDetails.firm[e.firm] = 1
+            }
+          });
+
+          usr.school.forEach(s => {
+            if (CountDetails.school[s.name]) {
+              CountDetails.school[s.name]++;
+            } else {
+              CountDetails.school[s.name] = 1
+            }
+          })
+
+        });
+        res.jsonp({success: true, data: CountDetails});
+      });
+    } else {
+      res.jsonp({success: true, data: CountDetails});
+    }
+
+  // } else {
+  //   res.jsonp({success: false});
+  // }
+});
 
 module.exports.router = router;
 module.exports.verify = verifyToken;

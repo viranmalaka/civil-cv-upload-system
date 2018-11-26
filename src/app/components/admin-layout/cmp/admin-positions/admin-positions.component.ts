@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {ModalTemplate, SuiModalService, TemplateModalConfig} from 'ng2-semantic-ui';
 import {ToastrService} from 'ngx-toastr';
 import {OtherApiService} from '../../../../services/other-api.service';
+import {UserService} from '../../../../services/user.service';
 
 export interface IContext {
   data: any;
@@ -19,9 +20,12 @@ export class AdminPositionsComponent implements OnInit {
   positionList = [];
 
   position = '';
+  positionCount = {};
 
-  constructor(public modalService: SuiModalService, public otherAPI: OtherApiService, private toastr: ToastrService) {
+  constructor(public modalService: SuiModalService, public userService: UserService,
+              public otherAPI: OtherApiService, private toastr: ToastrService) {
     this.refreshList();
+    this.positionCount = this.userService.adminCount['position'];
   }
 
   private refreshList() {

@@ -1,88 +1,93 @@
-<div class="ui container">
-  <div class="ui grid">
-    <div class="four wide column">
-      <div>
-        <!--<img class="ui medium circular image" *ngIf="!currentUser.hasDP" src="">-->
-        <img class="ui medium circular image"
-             [src]="dpSrc">
-      </div>
-      <button class="fluid ui button" (click)="changeProfilePicture()">UPLOAD PICTURE</button>
+<app-nav-bar></app-nav-bar>
+<div style="margin-top: 55px; height: 100%">
 
-      <div class="ui fluid vertical pointing menu">
-        <a class="item" (click)="changeMode('pdf')" [class.active]="mode === 'pdf'">Personal</a>
-        <a class="item" (click)="changeMode('pef')" [class.active]="mode === 'pef'">Experiences</a>
-        <a class="item" (click)="changeMode('ef')" [class.active]="mode === 'ef'">Extra</a>
-        <a class="item" (click)="changeMode('cv')" [class.active]="mode === 'cv'">My CV and Subjects</a>
-        <a class="item" (click)="changeMode('pass')" [class.active]="mode === 'pass'">Settings</a>
-      </div>
 
-      <div class="field">
-        <sui-checkbox class="toggle" (checkChange)="changeJobStatus()" [(ngModel)]="jobStatus">I am looking for a job</sui-checkbox>
-      </div>
-
-      <div class="ui fluid vertical pointing menu">
-        <a class="item" (click)="logout()">Logout</a>
-      </div>
-
-    </div>
-    <div class="twelve wide column">
-      <div class="ui segments">
-        <!--personal-->
-        <div class="ui segment">
-          <h1>{{title}}</h1>
+  <div class="ui container">
+    <div class="ui grid">
+      <div class="four wide column">
+        <div>
+          <!--<img class="ui medium circular image" *ngIf="!currentUser.hasDP" src="">-->
+          <img class="ui medium circular image"
+               [src]="dpSrc">
         </div>
-        <div class="ui raised segment">
-          <app-personal *ngIf="mode === 'pdf'"></app-personal>
-          <app-experience *ngIf="mode === 'pef'"></app-experience>
-          <app-extra-form *ngIf="mode === 'ef'"></app-extra-form>
-          <app-cv-upload *ngIf="mode === 'cv'"></app-cv-upload>
+        <button class="fluid ui button" (click)="changeProfilePicture()">UPLOAD PICTURE</button>
 
-          <app-usr-passwd *ngIf="mode === 'pass'"
-                          [firstMsg]="currentUser.status === 'first-login'"
-                          (changed)="pagelock = false"
-          ></app-usr-passwd>
+        <div class="ui fluid vertical pointing menu">
+          <a class="item" (click)="changeMode('pdf')" [class.active]="mode === 'pdf'">Personal</a>
+          <a class="item" (click)="changeMode('pef')" [class.active]="mode === 'pef'">Experiences</a>
+          <a class="item" (click)="changeMode('ef')" [class.active]="mode === 'ef'">Extra</a>
+          <a class="item" (click)="changeMode('cv')" [class.active]="mode === 'cv'">My CV and Subjects</a>
+          <a class="item" (click)="changeMode('pass')" [class.active]="mode === 'pass'">Settings</a>
+        </div>
+
+        <div class="field">
+          <sui-checkbox class="toggle" (checkChange)="changeJobStatus()" [(ngModel)]="jobStatus">I am looking for a
+            job
+          </sui-checkbox>
+        </div>
+
+        <div class="ui fluid vertical pointing menu">
+          <a class="item" (click)="logout()">Logout</a>
+        </div>
+
+      </div>
+      <div class="twelve wide column">
+        <div class="ui segments">
+          <!--personal-->
+          <div class="ui segment">
+            <h1>{{title}}</h1>
+          </div>
+          <div class="ui raised segment">
+            <app-personal *ngIf="mode === 'pdf'"></app-personal>
+            <app-experience *ngIf="mode === 'pef'"></app-experience>
+            <app-extra-form *ngIf="mode === 'ef'"></app-extra-form>
+            <app-cv-upload *ngIf="mode === 'cv'"></app-cv-upload>
+
+            <app-usr-passwd *ngIf="mode === 'pass'"
+                            [firstMsg]="currentUser.status === 'first-login'"
+                            (changed)="pagelock = false"
+            ></app-usr-passwd>
+          </div>
         </div>
       </div>
     </div>
   </div>
+
+  <ng-template let-context let-modal="modal" #picMod>
+    <div class="header">Change Profile Picture</div>
+    <div class="content">
+
+
+      <input type="file" (change)="fileChangeEvent($event)" accept="image/*" style="display: none" id="imageup"/>
+
+      <label for="imageup" class="ui button" tabindex="0">
+        <i class="upload icon"></i>
+        Select Image
+      </label>
+
+      <div class="two column ui grid">
+        <div class="column">
+          <image-cropper class="small"
+                         [imageChangedEvent]="imageChangedEvent"
+                         [maintainAspectRatio]="true"
+                         [aspectRatio]="1"
+                         format="jpg"
+                         (imageCroppedBase64)="imageCropped($event)"
+                         (imageLoaded)="imageLoaded()"
+                         (loadImageFailed)="loadImageFailed()"
+          ></image-cropper>
+        </div>
+        <div class="column">
+          <img style="width: 100%" [src]="croppedImage"/>
+        </div>
+      </div>
+
+
+    </div>
+    <div class="actions">
+      <button class="ui red button" (click)="modal.deny(false)">Cancel</button>
+      <button class="ui green button" (click)="modal.approve(true)" autofocus>SAVE</button>
+    </div>
+  </ng-template>
+
 </div>
-
-<ng-template let-context let-modal="modal" #picMod>
-  <div class="header">Change Profile Picture</div>
-  <div class="content">
-
-
-    <input type="file" (change)="fileChangeEvent($event)" accept="image/*" style="display: none" id="imageup"/>
-
-    <label for="imageup" class="ui button" tabindex="0">
-      <i class="upload icon"></i>
-       Select Image
-    </label>
-
-    <div class="two column ui grid">
-      <div class="column">
-        <image-cropper class="small"
-                       [imageChangedEvent]="imageChangedEvent"
-                       [maintainAspectRatio]="true"
-                       [aspectRatio]="1"
-                       format="jpg"
-                       (imageCroppedBase64)="imageCropped($event)"
-                       (imageLoaded)="imageLoaded()"
-                       (loadImageFailed)="loadImageFailed()"
-        ></image-cropper>
-      </div>
-      <div class="column">
-        <img style="width: 100%" [src]="croppedImage" />
-      </div>
-    </div>
-
-
-
-
-  </div>
-  <div class="actions">
-    <button class="ui red button" (click)="modal.deny(false)">Cancel</button>
-    <button class="ui green button" (click)="modal.approve(true)" autofocus>SAVE</button>
-  </div>
-</ng-template>
-

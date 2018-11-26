@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 var BatchSchema = new mongoose.Schema({
     name: String,
-    passOutYer: Number,
+    passOutYear: String,
 });
 mongoose.model('Batch', BatchSchema);
 

@@ -34,6 +34,9 @@ import {BatchApiService} from './services/batch-api.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { UserPublicComponent } from './components/user-public/user-public.component';
+import { AdminGeneratorComponent } from './components/admin-layout/cmp/admin-generator/admin-generator.component';
+import { AdminPasswordsComponent } from './components/admin-layout/cmp/admin-passwords/admin-passwords.component';
+import { ComRegComponent } from './components/user-account-layout/company/com-reg/com-reg.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +61,9 @@ import { UserPublicComponent } from './components/user-public/user-public.compon
     AdminBulkAddComponent,
     AdminViewComponent,
     UserPublicComponent,
+    AdminGeneratorComponent,
+    AdminPasswordsComponent,
+    ComRegComponent,
 ],
   imports: [
     FormsModule,

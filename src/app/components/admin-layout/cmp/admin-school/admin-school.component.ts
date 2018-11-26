@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {ModalTemplate, SuiModalService, TemplateModalConfig} from 'ng2-semantic-ui';
 import {ToastrService} from 'ngx-toastr';
 import {OtherApiService} from '../../../../services/other-api.service';
+import {UserService} from '../../../../services/user.service';
 
 export interface IContext {
   data: any;
@@ -17,11 +18,14 @@ export class AdminSchoolComponent implements OnInit {
   @ViewChild('modal') public modal: ModalTemplate<IContext, string, string>;
 
   schoolList = [];
+  schoolCount = {};
 
   school = '';
 
-  constructor(public modalService: SuiModalService, public otherAPI: OtherApiService, private toastr: ToastrService) {
+  constructor(public modalService: SuiModalService, private userService: UserService,
+              public otherAPI: OtherApiService, private toastr: ToastrService) {
     this.refreshList();
+    this.schoolCount = this.userService.adminCount['school'];
   }
 
   private refreshList() {

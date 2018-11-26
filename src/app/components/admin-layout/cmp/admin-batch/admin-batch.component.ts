@@ -1,8 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {SuiModalService, TemplateModalConfig, ModalTemplate} from 'ng2-semantic-ui';
 import {BatchApiService} from '../../../../services/batch-api.service';
-import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
+import {UserService} from '../../../../services/user.service';
 
 export interface IContext {
   data: any;
@@ -21,9 +21,13 @@ export class AdminBatchComponent implements OnInit {
   batchList = [];
 
   batch = {name: '', passOutYear: ''};
+  batchCounts = {};
 
-  constructor(public modalService: SuiModalService, public batchAPI: BatchApiService, private toastr: ToastrService) {
+  constructor(private userServce: UserService,
+              public modalService: SuiModalService,
+              public batchAPI: BatchApiService, private toastr: ToastrService) {
     this.refreshList();
+    this.batchCounts = this.userServce.adminCount['batch'];
   }
 
   private refreshList() {

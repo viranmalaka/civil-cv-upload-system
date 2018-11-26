@@ -38,7 +38,7 @@ export class UserAccountLayoutComponent implements OnInit {
         this.pagelock = true;
       }
       if (this.currentUser['hasDP']) {
-        this.dpSrc = '//localhost:3000/dp/' + this.currentUser.index + '.png';
+        this.dpSrc = '/dp/' + this.currentUser.index + '.png';
       }
       this.jobStatus = this.currentUser['lookingForJob'];
     });
@@ -103,7 +103,7 @@ export class UserAccountLayoutComponent implements OnInit {
           this.userAPI.uploadDP(this.croppedImage).subscribe(data => {
             if (data.success) {
               this.toastr.success('Picture Upload successfully');
-              this.dpSrc = '//localhost:3000/dp/' + this.currentUser.index + '.png?a=' + new Date().getTime();
+              this.dpSrc = '/dp/' + this.currentUser.index + '.png?a=' + new Date().getTime();
             } else {
               this.toastr.error('Something went wrong');
             }

@@ -4,11 +4,11 @@
       <div class="four wide column">
         <img *ngIf="!currentUser?.hasDP" class="ui medium circular image" src="../../../assets/images/user-dummy.png">
         <img *ngIf="currentUser?.hasDP" class="ui medium circular image"
-             src="//localhost:3000/dp/{{currentUser?.index}}.png">
-        <div class="ui fluid icon blue button">
+             src="/dp/{{currentUser?.index}}.png">
+        <a class="ui fluid icon blue button" href="/cv/{{currentUser?.index}}.pdf">
           <i class="icon download"></i>
           Download My CV
-        </div>
+        </a>
       </div>
       <div class="ten wide column">
         <h1 class="ui header">{{currentUser?.name}} <div class="sub header" id="batch_id">({{currentUser?.batch?.name}})</div></h1>

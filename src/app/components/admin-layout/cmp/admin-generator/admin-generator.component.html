@@ -3,7 +3,7 @@
   <tr>
     <th colspan="5">
       <div class="ui right floated small primary labeled icon button" (click)="openForm(true)">
-        <i class="add icon"></i> Add Batch
+        <i class="add icon"></i> Add User
       </div>
     </th>
   </tr>
@@ -11,28 +11,17 @@
   <thead>
   <tr>
     <th class="one wide">#</th>
+    <th class="five wide">Username</th>
     <th class="five wide">Name</th>
-    <th class="five wide">Pass out year</th>
-    <th class="two wide">Count</th>
-    <th class="three wide"></th>
+    <th class="two wide">First Password</th>
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let x of batchList; let i = index">
+  <tr *ngFor="let x of adminList; let i = index">
     <td data-label="index">{{i + 1}}</td>
-    <td data-label="name">{{x.name}}</td>
-    <td data-label="year">{{x.passOutYear}}</td>
-    <td data-label="year">{{batchCounts[x._id]}}</td>
-    <td data-label="controllers" class="center aligned">
-      <button class="ui green icon button" suiPopup popupText="Edit" popupInverted popupPlacement="top"
-        (click)="openForm(false, x)">
-        <i class="edit icon"></i>
-      </button>
-      <button class="ui red icon button"  suiPopup popupText="Remove" popupInverted popupPlacement="top"
-       (click)="openDelete(x)">
-        <i class="delete icon"></i>
-      </button>
-    </td>
+    <td data-label="name">{{x.index}}</td>
+    <td data-label="year">{{x.name}}</td>
+    <td data-label="password">{{x.firstRowPassword}}</td>
   </tr>
   </tbody>
 </table>
@@ -42,12 +31,12 @@
   <div class="content">
     <form class="ui form">
       <div class="field">
-        <label>Name: </label>
-        <input type="text" name="name" placeholder="Batch name" [(ngModel)]="batch['name']">
+        <label>Username: </label>
+        <input type="text" name="username" placeholder="Username" [(ngModel)]="newAdmin['username']">
       </div>
       <div class="field">
-        <label>Pass out year: </label>
-        <input placeholder="Pass out year" [(ngModel)]="batch['passOutYear']" name="year">
+        <label>Name: </label>
+        <input placeholder="Name" [(ngModel)]="newAdmin['name']" name="name">
       </div>
     </form>
   </div>

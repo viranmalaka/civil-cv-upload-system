@@ -11,6 +11,7 @@ export class UserService {
   isLoggedIn = false;
   token = '';
   currentUsr: any;
+  adminCount: any;
 
   domain = environment.api + 'users/';
 
@@ -100,10 +101,21 @@ export class UserService {
   }
 
   editSpecial(selectedOptions: any) {
-
     return this.http.put(this.domain + 'edit-special', {special: selectedOptions},
       {headers: this.getHeader()});
   }
 
+  getAdminCount(calculate): Observable<any> {
+    return this.http.get(this.domain + 'count',
+      {headers: this.getHeader(), params: {calculate: calculate.toString()}});
+  }
 
+
+  createAdmin(newAdmin): Observable<any> {
+    return this.http.post(this.domain + 'create-admin', newAdmin, {headers: this.getHeader()});
+  }
+
+  getAllAdmins(): Observable<any> {
+    return this.http.get(this.domain + 'all-admins', {headers: this.getHeader()});
+  }
 }

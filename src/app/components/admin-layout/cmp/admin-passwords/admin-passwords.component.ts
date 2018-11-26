@@ -1,16 +1,13 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {UserService} from '../../../../services/user.service';
 import {ToastrService} from 'ngx-toastr';
 
 @Component({
-  selector: 'app-usr-passwd',
-  templateUrl: './usr-passwd.component.html',
-  styleUrls: ['./usr-passwd.component.scss']
+  selector: 'app-admin-passwords',
+  templateUrl: './admin-passwords.component.html',
+  styleUrls: ['./admin-passwords.component.scss']
 })
-export class UsrPasswdComponent implements OnInit {
-
-  @Input() firstMsg;
-  @Output() changed = new EventEmitter();
+export class AdminPasswordsComponent implements OnInit {
 
   pass = {
     curr: '',
@@ -38,7 +35,6 @@ export class UsrPasswdComponent implements OnInit {
             if (data.success) {
               this.toastr.success('Change the password successfully');
               this.pass = {curr: '', newPass: '', confirm: ''};
-              this.changed.emit(true);
             } else {
               this.toastr.error('Something went wrong');
             }

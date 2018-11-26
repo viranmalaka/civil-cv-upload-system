@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {TemplateModalConfig, ModalTemplate, SuiModalService} from 'ng2-semantic-ui';
 import {OtherApiService} from '../../../../services/other-api.service';
 import {ToastrService} from 'ngx-toastr';
+import {UserService} from '../../../../services/user.service';
 
 export interface IContext {
   data: any;
@@ -17,11 +18,14 @@ export class AdminFirmComponent implements OnInit {
   @ViewChild('modal') public modal: ModalTemplate<IContext, string, string>;
 
   firmList = [];
+  firmCounts = {};
 
   firm = '';
 
-  constructor(public modalService: SuiModalService, public otherAPI: OtherApiService, private toastr: ToastrService) {
+  constructor(public modalService: SuiModalService, public otherAPI: OtherApiService,
+              private toastr: ToastrService, private userService: UserService) {
     this.refreshList();
+    this.firmCounts = this.userService.adminCount['firm'];
   }
 
   private refreshList() {
@@ -43,16 +47,16 @@ export class AdminFirmComponent implements OnInit {
     this.modalService
       .open(config)
       .onApprove(result => {
-          this.otherAPI.editFirm(oldVal, result).subscribe(data => {
-            if (data.success) {
-              this.refreshList();
-              this.toastr.success('Edited');
-            } else {
-              this.toastr.error('Something went wrong');
-            }
-          }, error1 => {
-            this.toastr.error('Something went wrong (NET)');
-          });
+        this.otherAPI.editFirm(oldVal, result).subscribe(data => {
+          if (data.success) {
+            this.refreshList();
+            this.toastr.success('Edited');
+          } else {
+            this.toastr.error('Something went wrong');
+          }
+        }, error1 => {
+          this.toastr.error('Something went wrong (NET)');
+        });
       })
       .onDeny(result => {
         this.firm = '';

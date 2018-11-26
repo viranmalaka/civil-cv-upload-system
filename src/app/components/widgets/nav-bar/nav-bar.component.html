@@ -4,14 +4,16 @@
       <img class="logo" src="../../../../assets/images/uom.png">
       CIVIL ENGINEERING SOCIETY
     </a>
-    <a href="#" class="item">NEWS</a>
+    <!--<a href="#" class="item">NEWS</a>-->
     <div class="right item">
       <!--<div class="ui action inverted left icon input">-->
         <!--<i class="search icon"></i>-->
         <!--&lt;!&ndash;<input type="text" placeholder="Search">&ndash;&gt;-->
       <!--</div>-->
       <button class="ui inverted button" routerLink="/search" style="margin-right: 5px;">Search</button>
-      <a routerLink="/login" class="ui inverted button">Login</a>
+      <a routerLink="/login" class="ui inverted button" *ngIf="!userService.isLoggedIn">Login</a>
+      <a routerLink="/{{userService?.currentUsr?.type === 'sadmin' ? 'admin' : 'user-account'}}"
+         class="ui inverted button" *ngIf="userService.isLoggedIn">My Account</a>
     </div>
 
   </div>

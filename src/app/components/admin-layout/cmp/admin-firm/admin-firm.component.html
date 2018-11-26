@@ -12,7 +12,7 @@
   <tr *ngFor="let x of firmList; let i = index">
     <td data-label="index">{{i + 1}}</td>
     <td data-label="Name">{{x}}</td>
-    <td data-label="Count">0</td>
+    <td data-label="Count">{{firmCounts[x]}}</td>
     <td data-label="controllers" class="center aligned">
       <button class="ui green icon button" suiPopup popupText="Edit" popupInverted popupPlacement="top"
               (click)="openForm(x)">
